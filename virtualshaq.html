@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html>
+ <body>
+
+ <h1 align="center">Meet Virtual Shaq!!!</h1>
+<p align="center"><strong> *In order for the website to work, please make sure your
+web browser's text encoding is set to UTF-8*</strong>
+</p>
+ 
+<p align="center">
+  <img  id="stateImage" src="happy.jpg" width="500" height="300">
+</p>
+
+<p align="center">
+  Shaq is feeling: <input type="text" value="happy" id="state" size="20"></br>
+  <input type=hidden value="pet" id="stimulus" size="20"></br>
+  <input type=hidden id="counter" name="counter" value=0>
+  <input type=hidden id="rand" value=0>
+ </p>
+
+<p align="center">
+  <button id="pet" onclick="pet()"> Pet </button>
+  <button id="feed" onclick="feed()"> Feed </button>
+  <button id="walk" onclick="walk()"> Walk </button>
+  <button id="punish" onclick="punish()"> Punish </button>
+</p>
+
+<p align="center">
+  <a href="pestdoc.html">Learn more about Virtual Shaq</a>
+</p>
+
+ 
+<script language="javascript">
+
+var state = ["happy", "sad", "angry", "hungry", "tired", "sleepy", "sated"]; //list of possible states
+var stimulus = ["pet", "feed", "walk", "punish", "ignore"]; //list of possible stimuli
+var mood = document.getElementById("state").value;  //retrieves status of current state
+var action = document.getElementById("stimulus").value; //retrieves status of current stimulus
+
+function initialize(){ //begins timeout
+
+  setTimeout("simulate()", 5000); //starts a counter, calls simulate() to begin state transition
+
+}
+
+function showState(){ //updates displays image the pest's emotion based on its state
+
+  if(mood == state[0]){
+    document.getElementById("state").value = state[0];
+    document.getElementById("stateImage").src = "happy.jpg";
+  }else if(mood == state[1]){
+    document.getElementById("state").value = state[1];
+    document.getElementById("stateImage").src = "sad.jpg";
+  }else if(mood == state[2]){
+    document.getElementById("state").value = state[2];
+    document.getElementById("stateImage").src = "angry.jpg";
+  }else if(mood == state[3]){
+    document.getElementById("state").value = state[3];
+    document.getElementById("stateImage").src = "hungry.jpg";
+  }else if(mood == state[4]){
+    document.getElementById("state").value = state[4];
+    document.getElementById("stateImage").src = "tired.jpg";
+  }else if(mood == state[5]){
+    document.getElementById("state").value = state[5];
+    document.getElementById("stateImage").src  = "sleeping.jpg";
+  }else if(mood == state[6]){
+    document.getElementById("state").value = state[6];
+    document.getElementById("stateImage").src  = "dogfull.jpg";
+  }
+
+}
+
+function pet(){ //changes pest state when pet
+
+  document.getElementById("stimulus").value = stimulus[0]; //updates current action/stimulus
+
+  if(mood == state[1] || mood == state[2] || mood == state[6]){
+    mood = state[0];
+  }else if(mood == state[0]){
+    mood = state[4];
+  }else if(mood == state[4]){
+    mood = state[5];
+  }
+  showState();
+
+}
+
+function feed(){ //changes pest state when fed
+
+  document.getElementById("stimulus").value = stimulus[1];  //updates current action/stimulus
+
+  if(mood == state [1] || mood == state[2] || mood == state[3] || mood == state[4] || mood == state[5]){
+    mood = state[0];
+  }else if(mood == state[0]){
+    mood = state[6];
+  }
+  showState();
+}
+
+function walk(){ //changes pest state when walked
+
+  document.getElementById("stimulus").value = stimulus[2];  //updates current action/stimulus
+
+  if(mood == state [1] || mood == state[2] || mood == state[5] || mood == state[6]){
+    mood = state[0];
+  }
+  else if(mood == state[0]){
+    mood = state[4];
+  }
+  else if(mood == state[4]){
+    mood = state[3];
+  }
+
+  showState();
+}
+
+function punish(){ //changes pest state when punished
+
+  document.getElementById("stimulus").value = stimulus[3];  //updates current action/stimulus
+
+  if(mood == state[0] || mood == state[3] || mood == state[4] || mood == state[5] || mood == state[6]){
+    mood = state[1];
+  }else if(mood = state[1]){
+    mood = state[2];
+  }
+
+  showState();
+}
+
+function simulate(){ //executed by setTimeout in the initialize() function
+
+  document.getElementById("counter").value++; //counter update
+  document.getElementById("stimulus").value = stimulus[4]; //updates stimulus to 'ignore' because pest is being ignored
+
+  var n = Math.random(); //generates random number between 0 and 1
+
+  document.getElementById("rand").value = n; //updates value of random number
+
+  /**
+  This set of conditions alters the mood based on the pest's current state
+  and a 'flip of a coin,' which gives it the option to go into two different states
+  */
+  if(mood == state[0] && n < .5){
+    mood = state[1];
+  }
+  else if(mood == state[0] && n > .5){
+    mood = state[4];
+  }
+  else if(mood == state[1] && n < .5){
+    mood = state[2];
+  }
+  else if(mood == state[1] && n > .5){
+    mood = state[4];
+  }
+  else if(mood == state[2] && n > .5){
+    mood = state[4];
+  }
+  else if(mood == state[3] && n > .5){
+    mood = state[2];
+  }
+  else if(mood == state[3] && n < .5){
+    mood = state[4];
+  }
+  else if(mood == state[3] && n > .5){
+    mood = state[5];
+  }
+  else if(mood == state[4] && n < .5){
+    mood = state[5];
+  }
+
+  showState();
+  setTimeout("simulate()", 3000);
+
+}
+window.onLoad = initialize(); //runs initialize() on page load
+ 
+</script> 
+ </body>
+</html>
+ 
+ 
